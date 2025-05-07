@@ -134,7 +134,7 @@ fi
 SHARED_LIBRARY_NAME=$(echo $TF_LFLAGS | rev | cut -d":" -f1 | rev)
 if ! [[ $TF_LFLAGS =~ .*:.* ]]; then
   if is_macos; then
-    SHARED_LIBRARY_NAME="libtensorflow_framework.dylib"
+    SHARED_LIBRARY_NAME="libtensorflow_framework.2.dylib"
   elif is_windows; then
     # Use pywrap_tensorflow's import library on Windows. It is in the same dir as the dll/pyd.
     SHARED_LIBRARY_NAME="_pywrap_tensorflow_internal.lib"

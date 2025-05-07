@@ -1,18 +1,32 @@
 # This file includes external dependencies that are required to compile the
 # TensorFlow op.
 
-
-
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+zlib_version = "1.3.1"
 
+zlib_sha256 = "9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91eefb60f03b72df23"
+
+http_archive(
+    name = "zlib",
+    build_file = "@com_google_protobuf//:third_party/zlib.BUILD",
+    sha256 = zlib_sha256,
+    strip_prefix = "zlib-%s" % zlib_version,
+    urls = ["https://github.com/madler/zlib/releases/download/v{v}/zlib-{v}.tar.gz".format(v = zlib_version)],
+)
+
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+git_repository(
+    name = "com_google_absl",
+    commit = "caa7bb4457bfcafcd55a940204ef78c1bf1f417d",
+    remote = "https://github.com/abseil/abseil-cpp.git",
+)
 
 EIGEN_COMMIT = "aa6964bf3a34fd607837dd8123bc42465185c4f8"
 
-
 http_archive(
     name = "eigen",
-    sha256 = "35ba771e30c735a4215ed784d7e032086cf89fe6622dce4d793c45dd74373362",
     build_file_content = """
 cc_library(
   name = "eigen3",
@@ -20,11 +34,12 @@ cc_library(
   visibility = ["//visibility:public"],
 )
     """,
-        strip_prefix = "eigen-{commit}".format(commit = EIGEN_COMMIT),
-        urls = [
-            "https://storage.googleapis.com/mirror.tensorflow.org/gitlab.com/libeigen/eigen/-/archive/{commit}/eigen-{commit}.tar.gz".format(commit = EIGEN_COMMIT),
-            "https://gitlab.com/libeigen/eigen/-/archive/{commit}/eigen-{commit}.tar.gz".format(commit = EIGEN_COMMIT),
-        ],
+    sha256 = "35ba771e30c735a4215ed784d7e032086cf89fe6622dce4d793c45dd74373362",
+    strip_prefix = "eigen-{commit}".format(commit = EIGEN_COMMIT),
+    urls = [
+        "https://storage.googleapis.com/mirror.tensorflow.org/gitlab.com/libeigen/eigen/-/archive/{commit}/eigen-{commit}.tar.gz".format(commit = EIGEN_COMMIT),
+        "https://gitlab.com/libeigen/eigen/-/archive/{commit}/eigen-{commit}.tar.gz".format(commit = EIGEN_COMMIT),
+    ],
 )
 
 http_archive(
@@ -48,7 +63,6 @@ http_archive(
         "https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.15.0.zip",
     ],
 )
-
 
 load("@org_tensorflow//tensorflow:workspace3.bzl", "tf_workspace3")
 

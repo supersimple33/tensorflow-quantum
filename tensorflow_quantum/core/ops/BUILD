@@ -440,6 +440,12 @@ cc_library(
     #     ],
     # }),
     deps = [
+        "@com_google_absl//absl/algorithm:container",
+        "@com_google_absl//absl/container:flat_hash_map",
+        "@com_google_absl//absl/hash",
+        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/status:statusor",
+        "@com_google_protobuf//:protobuf",
         "@local_config_tf//:libtensorflow_framework",
         "@local_config_tf//:tf_header_lib",
     ],
@@ -542,8 +548,8 @@ py_library(
     srcs_version = "PY3",
     deps = [
         ":batch_util",
-        "//tensorflow_quantum/core/proto:program_py_proto",
         "//tensorflow_quantum/core/proto:pauli_sum_py_proto",
+        "//tensorflow_quantum/core/proto:program_py_proto",
         "//tensorflow_quantum/core/proto:projector_sum_py_proto",
         "//tensorflow_quantum/core/serialize:serializer",
     ],
